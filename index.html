@@ -292,14 +292,14 @@
   /* ── IMAGE MOSAIC ── */
   #mosaic {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 320px 320px;
-    gap: 3px;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    grid-template-rows: 480px;
+    gap: 4px;
     max-width: 1280px;
     margin: 0 auto;
   }
-  .mosaic-item { overflow: hidden; position: relative; }
-  .mosaic-item.large { grid-row: span 2; }
+  .mosaic-item { overflow: hidden; position: relative; height: 480px; }
+  .mosaic-item.large { height: 480px; }
   .mosaic-item img {
     width: 100%; height: 100%;
     object-fit: cover; display: block;
@@ -536,8 +536,9 @@
     nav { padding: 18px 28px; }
     nav.scrolled { padding: 12px 28px; }
     nav ul { gap: 20px; }
-    #mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 240px 240px; }
-    .mosaic-item.large { grid-row: span 1; }
+    #mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 280px 280px; }
+    .mosaic-item { height: 280px; }
+    .mosaic-item:last-child { grid-column: span 2; }
     .why-inner { grid-template-columns: 1fr; gap: 48px; }
     .steps { grid-template-columns: 1fr; gap: 32px; }
     .footer-inner { grid-template-columns: 1fr; gap: 32px; }
@@ -545,7 +546,8 @@
   }
   @media (max-width: 600px) {
     #mosaic { grid-template-columns: 1fr; grid-template-rows: auto; }
-    .mosaic-item { height: 240px; }
+    .mosaic-item { height: 220px; }
+    .mosaic-item:last-child { grid-column: span 1; }
     .pillars { grid-template-columns: 1fr; }
     .hero-title { font-size: 2.4rem; }
     nav ul { display: none; }
@@ -618,7 +620,7 @@
 
 <!-- IMAGE MOSAIC -->
 <div id="mosaic">
-  <div class="mosaic-item large">
+  <div class="mosaic-item">
     <img src="image1.jpeg" alt="Concierge desk with gold nameplate">
     <div class="mosaic-caption">Professional Concierge Services</div>
   </div>
