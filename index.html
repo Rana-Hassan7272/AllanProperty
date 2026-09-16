@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allan Property Services LLC — Concierge & Front Desk Recruitment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy:       #0d1b2a;
+    --navy-mid:   #1a2d42;
+    --gold:       #c9a84c;   /* richer, darker gold — stays readable */
+    --gold-light: #e8c96a;   /* used only on dark backgrounds */
+    --cream:      #f8f5ef;
+    --off-white:  #ede9e0;
+    --text-body:  #2a2a2a;
+    --text-muted: #666;
+    /* accent for italic highlights on light bg — deep navy, never gold */
+    --accent-dark: #0d1b2a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    color: var(--text-body);
+    background: var(--cream);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 56px;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(13,27,42,0.97);
+    backdrop-filter: blur(8px);
+    padding: 14px 56px;
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: #fff;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    line-height: 1.3;
+  }
+  .nav-brand span {
+    display: block;
+    font-size: 0.6rem;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  nav ul { list-style: none; display: flex; gap: 36px; }
+  nav ul a {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--gold-light); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--navy); /* fallback if video doesn't load */
+  }
+
+  #hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(13,27,42,0.60) 0%,
+      rgba(13,27,42,0.40) 40%,
+      rgba(13,27,42,0.80) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 820px;
+    padding: 0 32px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 22px;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.12;
+    color: #ffffff;
+    margin-bottom: 24px;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.4);
+  }
+
+  /* On dark hero — italic stays white, just italic */
+  .hero-title em {
+    font-style: italic;
+    color: #ffffff;
+  }
+
+  .hero-sub {
+    font-size: 1.02rem;
+    color: rgba(255,255,255,0.88);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .btn-gold {
+    display: inline-block;
+    padding: 15px 44px;
+    background: var(--gold);
+    color: #0d1b2a;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-gold:hover {
+    background: var(--gold-light);
+    color: #0d1b2a;
+  }
+
+  /* video fallback notice */
+  .video-fallback-msg {
+    display: none;
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0%,100% { opacity: 0.4; }
+    50%      { opacity: 1; }
+  }
+
+  /* ── ADDRESS STRIP ── */
+  .address-strip {
+    background: var(--navy);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 14px 24px;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .address-strip strong {
+    color: #ffffff;
+    font-weight: 500;
+  }
+
+  /* ── SECTION LABELS ── */
+  /* On LIGHT backgrounds — label is gold, italic accent is NAVY (high contrast) */
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: block;
+    font-weight: 400;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+    color: var(--navy);
+    margin-bottom: 28px;
+  }
+
+  /* CRITICAL FIX: italic accent on light background = navy, not gold */
+  .section-title em {
+    font-style: italic;
+    color: var(--navy);           /* same navy — bold contrast on cream */
+    font-weight: 300;
+  }
+
+  /* On DARK backgrounds — italic accent stays white */
+  .on-dark .section-title { color: #ffffff; }
+  .on-dark .section-title em { color: #ffffff; }
+  .on-dark .section-label { color: var(--gold-light); }
+
+  .lead-text {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-body);
+    max-width: 660px;
+    margin: 0 auto 20px;
+    font-weight: 300;
+  }
+
+  .divider {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 40px;
+  }
+
+  /* ── INTRO ── */
+  #intro {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 100px 40px;
+    text-align: center;
+  }
+
+  /* ── IMAGE MOSAIC ── */
+  #mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 320px 320px;
+    gap: 3px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .mosaic-item { overflow: hidden; position: relative; }
+  .mosaic-item.large { grid-row: span 2; }
+  .mosaic-item img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.7s ease;
+  }
+  .mosaic-item:hover img { transform: scale(1.04); }
+  .mosaic-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(13,27,42,0.75));
+    padding: 32px 24px 18px;
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* ── WHY US ── */
+  #why {
+    background: var(--navy);
+    padding: 100px 56px;
+  }
+  .why-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .why-text p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.85;
+    font-size: 0.97rem;
+    max-width: 480px;
+  }
+  .why-text .divider { margin: 0 0 32px; }
+
+  .pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .pillar {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 32px 28px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+  .pillar:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.55);
+  }
+  .pillar-icon {
+    width: 34px; height: 2px;
+    background: var(--gold);
+    margin-bottom: 18px;
+  }
+  .pillar h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .pillar p {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.75;
+  }
+
+  /* ── PROCESS ── */
+  #process {
+    padding: 100px 56px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  #process .section-label,
+  #process .section-title { text-align: center; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    margin-top: 60px;
+  }
+  .step { text-align: center; }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 3.5rem;
+    color: var(--off-white);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .step h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .step p {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* ── CTA ── */
+  #cta {
+    background: var(--navy-mid);
+    position: relative;
+    overflow: hidden;
+    padding: 100px 56px;
+    text-align: center;
+  }
+  #cta::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.14);
+  }
+  #cta::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.09);
+  }
+  #cta p {
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .btn-outline-light {
+    display: inline-block;
+    padding: 15px 44px;
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #ffffff;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.25s, background 0.25s;
+    margin: 0 8px;
+  }
+  .btn-outline-light:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.12);
+    color: #ffffff;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 56px 56px 36px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #fff;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .footer-brand-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .footer-desc {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+    max-width: 320px;
+  }
+  .footer-col h4 {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    font-weight: 400;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: #fff; }
+  .footer-col address {
+    font-style: normal;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.85;
+  }
+  .footer-col address a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col address a:hover { color: #fff; }
+  .footer-bottom {
+    max-width: 1100px;
+    margin: 28px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 28px; }
+    nav.scrolled { padding: 12px 28px; }
+    nav ul { gap: 20px; }
+    #mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 240px 240px; }
+    .mosaic-item.large { grid-row: span 1; }
+    .why-inner { grid-template-columns: 1fr; gap: 48px; }
+    .steps { grid-template-columns: 1fr; gap: 32px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+    #why, #process, #cta, footer { padding-left: 28px; padding-right: 28px; }
+  }
+  @media (max-width: 600px) {
+    #mosaic { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .mosaic-item { height: 240px; }
+    .pillars { grid-template-columns: 1fr; }
+    .hero-title { font-size: 2.4rem; }
+    nav ul { display: none; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-brand">
+    Allan Property Services
+    <span>Concierge Recruitment</span>
+  </a>
+  <ul>
+    <li><a href="#intro">About</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#cta">Apply</a></li>
+  </ul>
+</nav>
+
+<!-- HERO VIDEO -->
+<section id="hero">
+  <!--
+    Cloudinary URL trick: swap /upload/ to /upload/f_mp4,vc_h264/
+    so the .mov is transcoded to a browser-compatible H.264 MP4 on the fly.
+  -->
+  <video id="hero-video" autoplay muted loop playsinline preload="auto"
+         poster="image1.jpeg">
+    <source
+      src="https://res.cloudinary.com/asd9vjlc/video/upload/f_mp4,vc_h264/v1789545691/F2846E4A-C323-49E2-8D9B-1D89168D6E9A.mov"
+      type="video/mp4">
+    <source
+      src="https://res.cloudinary.com/asd9vjlc/video/upload/v1789545691/F2846E4A-C323-49E2-8D9B-1D89168D6E9A.mov"
+      type="video/mp4">
+  </video>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Allan Property Services LLC — Orlando, FL</p>
+    <h1 class="hero-title">Connecting Exceptional People<br>With <em>Exceptional Opportunities</em></h1>
+    <p class="hero-sub">Recruiting dedicated concierge and front desk professionals for premier residential and hospitality properties across Florida.</p>
+    <a href="#cta" class="btn-gold">Explore Opportunities</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ADDRESS STRIP -->
+<div class="address-strip">
+  <strong>Allan Property Services LLC</strong>&nbsp;&nbsp;·&nbsp;&nbsp;2824 10th St, Orlando, FL 32820
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <span class="section-label">Who We Are</span>
+  <h2 class="section-title">Great Service Starts<br>With <em>Great People</em></h2>
+  <div class="divider"></div>
+  <p class="lead-text">
+    At Allan Property Services LLC, we specialize in connecting talented, reliable, and service-focused professionals with concierge and front desk positions at top condominium and property organizations.
+  </p>
+  <p class="lead-text">
+    We believe hospitality is a craft. Whether you're a seasoned concierge professional seeking your next role, or someone ready to build a rewarding career in property services — we are here to match your strengths with the right opportunity.
+  </p>
+</section>
+
+<!-- IMAGE MOSAIC -->
+<div id="mosaic">
+  <div class="mosaic-item large">
+    <img src="image1.jpeg" alt="Concierge desk with gold nameplate">
+    <div class="mosaic-caption">Professional Concierge Services</div>
+  </div>
+  <div class="mosaic-item">
+    <img src="image2.jpeg" alt="Hotel front desk with service bell">
+    <div class="mosaic-caption">Front Desk Excellence</div>
+  </div>
+  <div class="mosaic-item">
+    <img src="image3.jpeg" alt="Key card handover at reception">
+    <div class="mosaic-caption">Seamless Check-In Experience</div>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-inner">
+    <div class="why-text on-dark">
+      <span class="section-label">Why Choose Us</span>
+      <h2 class="section-title">A Recruitment Partner<br>You Can <em>Trust</em></h2>
+      <div class="divider"></div>
+      <p>We don't just fill positions — we build lasting placements. Our approach is personal, thorough, and focused on alignment: the right candidate for the right property, every time.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon"></div>
+        <h3>Reputable Properties</h3>
+        <p>Opportunities with established condominium and property organizations that value service.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon"></div>
+        <h3>Personalized Placement</h3>
+        <p>Recruitment shaped around your experience, strengths, and career goals.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon"></div>
+        <h3>Long-Term Success</h3>
+        <p>Quality-focused matching designed for stability, not just a quick fill.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon"></div>
+        <h3>End-to-End Support</h3>
+        <p>From first contact to placement, we guide you through every step of the process.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <span class="section-label">How It Works</span>
+  <h2 class="section-title">Your Path to Placement</h2>
+  <div class="divider" style="margin:0 auto 16px;"></div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Submit Your Profile</h3>
+      <p>Reach out with your experience, availability, and the kind of role you're looking for. We take the time to understand what you bring to the table.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Personalized Review</h3>
+      <p>Our team reviews your background against current openings at reputable properties, matching your skills to environments where you'll thrive.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Placed With Confidence</h3>
+      <p>We connect you with the opportunity, support you through onboarding, and follow up to ensure the placement is the right fit — for you and the property.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="on-dark" style="position:relative;z-index:1;">
+    <span class="section-label">Ready to Begin</span>
+    <h2 class="section-title" style="margin-bottom:20px;">Your Next Opportunity<br>Is <em>Closer Than You Think</em></h2>
+    <p>Join Allan Property Services LLC and take the next step toward a rewarding career in concierge and front desk services. We're looking for professionals who take pride in hospitality, communication, and exceptional resident experiences.</p>
+    <div>
+      <a href="mailto:info@allanpropertyservices.com" class="btn-outline-light">Get in Touch</a>
+      <a href="tel:+14070000000" class="btn-outline-light" style="margin-top:12px;">Call Our Office</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Allan Property Services LLC</div>
+      <div class="footer-brand-tag">Concierge &amp; Front Desk Recruitment</div>
+      <p class="footer-desc">Connecting service-focused professionals with premier condominium and property organizations across Central Florida.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#intro">About Us</a></li>
+        <li><a href="#why">Why Choose Us</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#cta">Apply Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <address>
+        2824 10th St<br>
+        Orlando, FL 32820<br><br>
+        <a href="mailto:info@allanpropertyservices.com">info@allanpropertyservices.com</a>
+      </address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Allan Property Services LLC. All rights reserved.</span>
+    <span>Orlando, Florida</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Video: try to play, unmute on click
+  const video = document.getElementById('hero-video');
+
+  video.play().catch(() => {
+    // autoplay blocked — still shows poster image (image1.jpeg)
+  });
+
+  document.addEventListener('click', () => {
+    if (video.muted) {
+      video.muted = false;
+      video.volume = 0.6;
+    }
+  }, { once: true });
+</script>
+
+</body>
+</html>
